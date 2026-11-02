@@ -1,0 +1,94 @@
+table transactions
+	lineageTag: bceccb3c-c828-447f-8d89-daa35d870fa6
+
+	column trx_id
+		dataType: string
+		lineageTag: a4f6ec02-5801-4c96-b7aa-6d22181dbf74
+		summarizeBy: none
+		sourceColumn: trx_id
+
+	column account_id
+		dataType: string
+		lineageTag: d929c16e-998c-43a2-b5c3-ee02aef053f9
+		summarizeBy: none
+		sourceColumn: account_id
+
+	column trx_type
+		dataType: string
+		lineageTag: 8f817ed0-31bd-4731-aad5-996cee80fdfa
+		summarizeBy: none
+		sourceColumn: trx_type
+
+	column amount_idr
+		dataType: int64
+		formatString: #,0
+		lineageTag: c4e35c22-0a9e-4abf-91b1-9e42ed77fa11
+		summarizeBy: none
+		sourceColumn: amount_idr
+
+	column merchant_name
+		dataType: string
+		lineageTag: 40e65998-94e9-4a08-8e2e-7489a4899153
+		summarizeBy: none
+		sourceColumn: merchant_name
+
+	column merchant_category
+		dataType: string
+		lineageTag: fcd7b326-4a6d-4d1d-a8e4-57b0d983acc3
+		summarizeBy: none
+		sourceColumn: merchant_category
+
+	column trx_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: a048a4d7-fe2b-42d3-894a-56e308c16577
+		summarizeBy: none
+		sourceColumn: trx_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column trx_time
+		dataType: string
+		lineageTag: f854d233-c6b4-4276-899c-afb8e5da9709
+		summarizeBy: none
+		sourceColumn: trx_time
+
+	column balance_after_idr
+		dataType: int64
+		formatString: #,0
+		lineageTag: fe59a9cf-335a-4c26-b886-e3db8b6a8d59
+		summarizeBy: none
+		sourceColumn: balance_after_idr
+
+	column status
+		dataType: string
+		lineageTag: 50832824-ee2d-443d-97cc-7c77ab0279bd
+		summarizeBy: none
+		sourceColumn: status
+
+	column channel
+		dataType: string
+		lineageTag: d53a59e2-4cde-486f-a4b3-8a7b48685265
+		summarizeBy: none
+		sourceColumn: channel
+
+	column trx_hour
+		dataType: int64
+		formatString: 0
+		lineageTag: f8b9614d-df40-4f2e-9b6c-a1cc2a0c7e3f
+		summarizeBy: none
+		sourceColumn: trx_hour
+
+	partition transactions = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "\transactions.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"trx_id", type text}, {"account_id", type text}, {"trx_type", type text}, {"amount_idr", Int64.Type}, {"merchant_name", type text}, {"merchant_category", type text}, {"trx_date", type date}, {"trx_time", type text}, {"balance_after_idr", Int64.Type}, {"status", type text}, {"channel", type text}}, "en-US"),
+					AddHour = Table.AddColumn(Typed, "trx_hour", each Number.FromText(Text.Start([trx_time], 2)), Int64.Type)
+				in
+					AddHour
+
+	annotation PBI_ResultType = Table
+

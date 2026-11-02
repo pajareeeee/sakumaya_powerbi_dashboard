@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "p3_foot",
+  "position": {
+    "x": 20,
+    "y": 698,
+    "z": 0,
+    "width": 1240,
+    "height": 20
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Sumber: ngulikdata.com/datasets/sakumaya (data fiktif bank digital). Periode transaksi Jan 2022 - Feb 2025; 2025 baru 2 bulan. Bermasalah = overdue + written_off. Pencairan memakai tanggal disbursement.",
+                    "textStyle": {
+                      "fontSize": "8pt",
+                      "color": "#7A8499"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

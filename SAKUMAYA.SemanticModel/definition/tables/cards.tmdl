@@ -1,0 +1,71 @@
+table cards
+	lineageTag: b7b8c4cc-ddf0-4647-9783-28278ecdc68d
+
+	column card_id
+		dataType: string
+		lineageTag: f26104c8-5772-4d7e-9ca2-fd2703cbcb97
+		summarizeBy: none
+		sourceColumn: card_id
+
+	column customer_id
+		dataType: string
+		lineageTag: 3141a31c-c325-449b-8834-3612ae953d97
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column account_id
+		dataType: string
+		lineageTag: 8ce11d92-38a8-4bf0-b640-fae96d7bb32d
+		summarizeBy: none
+		sourceColumn: account_id
+
+	column card_type
+		dataType: string
+		lineageTag: d24f6910-fa6d-40f1-974b-a2182f0e920d
+		summarizeBy: none
+		sourceColumn: card_type
+
+	column card_number_masked
+		dataType: string
+		lineageTag: 77f0f459-d6d9-4ac0-91fe-7f5cd44df8db
+		summarizeBy: none
+		sourceColumn: card_number_masked
+
+	column expiry_date
+		dataType: string
+		lineageTag: a904b19c-894a-4a72-94f5-f1daa1e3c310
+		summarizeBy: none
+		sourceColumn: expiry_date
+
+	column status
+		dataType: string
+		lineageTag: 7afb7bcb-1640-4723-8d8f-8d3fd5279dfd
+		summarizeBy: none
+		sourceColumn: status
+
+	column credit_limit_idr
+		dataType: double
+		formatString: #,0
+		lineageTag: 03a8390b-5c1f-4a16-8c9b-ff1340d121f7
+		summarizeBy: none
+		sourceColumn: credit_limit_idr
+
+	column outstanding_idr
+		dataType: double
+		formatString: #,0
+		lineageTag: b7736e7a-826b-4542-94bb-29847d0388d5
+		summarizeBy: none
+		sourceColumn: outstanding_idr
+
+	partition cards = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "\cards.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"card_id", type text}, {"customer_id", type text}, {"account_id", type text}, {"card_type", type text}, {"card_number_masked", type text}, {"expiry_date", type text}, {"status", type text}, {"credit_limit_idr", type number}, {"outstanding_idr", type number}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_ResultType = Table
+

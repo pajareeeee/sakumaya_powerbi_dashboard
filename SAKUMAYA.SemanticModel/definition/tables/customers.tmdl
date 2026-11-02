@@ -1,0 +1,98 @@
+table customers
+	lineageTag: b4bca8c5-a43a-4410-a0ab-4f82b3310eef
+
+	column customer_id
+		dataType: string
+		lineageTag: 9740cb12-85f6-4acc-b3d8-6f985ac1fbdf
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column name
+		dataType: string
+		lineageTag: 304227bd-8d1d-420e-9d5b-40e4e914f90e
+		summarizeBy: none
+		sourceColumn: name
+
+	column nik_masked
+		dataType: string
+		lineageTag: b70dbc51-f667-497e-a502-11f8ef1d1995
+		summarizeBy: none
+		sourceColumn: nik_masked
+
+	column email
+		dataType: string
+		lineageTag: 7eb050b6-4900-46d9-896c-b86c1ad92dd9
+		summarizeBy: none
+		sourceColumn: email
+
+	column phone
+		dataType: string
+		lineageTag: ef5a7a24-5ceb-45fe-bd1f-9c3f21b0b246
+		summarizeBy: none
+		sourceColumn: phone
+
+	column city
+		dataType: string
+		lineageTag: 51763599-9ca0-4a58-9e7b-23a3d8fb1499
+		summarizeBy: none
+		sourceColumn: city
+
+	column province
+		dataType: string
+		lineageTag: 13bb6aa6-f781-4018-b5e0-f3cc0b17e323
+		summarizeBy: none
+		sourceColumn: province
+
+	column dob
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 3e69cee8-4515-4440-a898-b463f2892989
+		summarizeBy: none
+		sourceColumn: dob
+
+		variation Variation
+			isDefault
+			relationship: 1e121dea-1f7a-4c36-a821-ac4bc18bede1
+			defaultHierarchy: LocalDateTable_f370b544-25e2-4cc7-bf72-14307c10f4e3.'Date Hierarchy'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column gender
+		dataType: string
+		lineageTag: 752d4611-f3c6-40e9-9338-799e5275b61f
+		summarizeBy: none
+		sourceColumn: gender
+
+	column kyc_status
+		dataType: string
+		lineageTag: 1ac795ff-bd59-4b31-ab2d-131b53626551
+		summarizeBy: none
+		sourceColumn: kyc_status
+
+	column registration_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 5a92d4d8-cbe0-4e88-8a44-88df726dc19a
+		summarizeBy: none
+		sourceColumn: registration_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column referral_code
+		dataType: string
+		lineageTag: 88abadbe-49d3-4d81-ac68-2d4b8850655f
+		summarizeBy: none
+		sourceColumn: referral_code
+
+	partition customers = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "\customers.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"customer_id", type text}, {"name", type text}, {"nik_masked", type text}, {"email", type text}, {"phone", type text}, {"city", type text}, {"province", type text}, {"dob", type date}, {"gender", type text}, {"kyc_status", type text}, {"registration_date", type date}, {"referral_code", type text}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_ResultType = Table
+

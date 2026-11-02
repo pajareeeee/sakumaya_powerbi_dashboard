@@ -1,0 +1,74 @@
+table accounts
+	lineageTag: 185894d7-5b9e-4c1a-a52b-e984f2fe1456
+
+	column account_id
+		dataType: string
+		lineageTag: ad47189e-d183-4885-b0b0-ef448ca432ee
+		summarizeBy: none
+		sourceColumn: account_id
+
+	column customer_id
+		dataType: string
+		lineageTag: 04a6e182-cc32-4974-a289-66fd1152fc36
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column account_number
+		dataType: string
+		lineageTag: c212bb04-1a7c-42de-97e9-e8f2561da0b3
+		summarizeBy: none
+		sourceColumn: account_number
+
+	column account_type
+		dataType: string
+		lineageTag: 5e3f4c01-0bda-4cc0-a415-907b9ea88cbb
+		summarizeBy: none
+		sourceColumn: account_type
+
+	column balance_idr
+		dataType: int64
+		formatString: #,0
+		lineageTag: 85abec6f-6e90-4fde-a129-4a35501e3185
+		summarizeBy: sum
+		sourceColumn: balance_idr
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 02bf2e1e-4dbe-4575-9dc9-27fa5335a8d5
+		summarizeBy: none
+		sourceColumn: created_date
+
+		variation Variation
+			isDefault
+			relationship: c3393203-3a11-401d-85e5-d505caca6222
+			defaultHierarchy: LocalDateTable_5500d962-50b6-4a0b-82eb-41c81c8960b7.'Date Hierarchy'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column status
+		dataType: string
+		lineageTag: 73fe8f37-9700-41d9-b73b-ee92fcaa9764
+		summarizeBy: none
+		sourceColumn: status
+
+	column tier
+		dataType: string
+		lineageTag: f9bca6f4-4afa-4d1c-b17e-464b450b922b
+		summarizeBy: none
+		sourceColumn: tier
+
+	partition accounts = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "\accounts.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"account_id", type text}, {"customer_id", type text}, {"account_number", type text}, {"account_type", type text}, {"balance_idr", Int64.Type}, {"created_date", type date}, {"status", type text}, {"tier", type text}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,128 @@
+table _Measures
+	lineageTag: bb421085-f9a0-4ebd-a2cd-86a208d75677
+
+	measure 'Total Nasabah' = DISTINCTCOUNT(customers[customer_id])
+		formatString: #,0
+		displayFolder: Nasabah
+		lineageTag: e0d7317a-1792-40ce-8e5c-c77a0692d9f5
+
+	measure 'Nasabah Verified' = CALCULATE([Total Nasabah], customers[kyc_status] = "verified")
+		formatString: #,0
+		displayFolder: Nasabah
+		lineageTag: a6c59a4b-abcd-4e19-832b-b4fa094a5f44
+
+	measure 'KYC Verified %' = DIVIDE([Nasabah Verified], [Total Nasabah])
+		formatString: 0.0%
+		displayFolder: Nasabah
+		lineageTag: 6ab049d9-3443-494a-9248-e5d4ec22190e
+
+	measure 'Nasabah Baru' = CALCULATE([Total Nasabah], USERELATIONSHIP(customers[registration_date], Kalender[Date]))
+		formatString: #,0
+		displayFolder: Nasabah
+		lineageTag: 24d37a67-278a-4aec-b9f5-edd969c87dbb
+
+	measure 'Total Rekening' = DISTINCTCOUNT(accounts[account_id])
+		formatString: #,0
+		displayFolder: Rekening
+		lineageTag: 9783d42b-8430-434d-8914-e3e888da80f1
+
+	measure 'Total Saldo (Rp M)' = DIVIDE(CALCULATE(SUM(accounts[balance_idr]), accounts[status] <> "closed"), 1000000000)
+		formatString: #,0.00
+		displayFolder: Rekening
+		lineageTag: 80a20aed-15ca-4b2e-82a4-06f1ad4cafd6
+
+	measure 'Rekening Aktif KYC Bermasalah' = CALCULATE(DISTINCTCOUNT(accounts[account_id]), accounts[status] = "active", customers[kyc_status] IN {"rejected", "unverified"})
+		formatString: #,0
+		displayFolder: Rekening
+		lineageTag: e696c698-5a89-428f-b6f7-e563b6433891
+
+	measure 'Transaksi Sukses' = CALCULATE(COUNTROWS(transactions), transactions[status] = "success")
+		formatString: #,0
+		displayFolder: Transaksi
+		lineageTag: 859a0657-3039-41d8-9d59-30891165f605
+
+	measure 'Transaksi Gagal' = CALCULATE(COUNTROWS(transactions), transactions[status] = "failed")
+		formatString: #,0
+		displayFolder: Transaksi
+		lineageTag: c49e36a0-4396-4c08-beaf-a6fa0a2d20f5
+
+	measure 'Failed Rate' = DIVIDE([Transaksi Gagal], COUNTROWS(transactions))
+		formatString: 0.0%
+		displayFolder: Transaksi
+		lineageTag: db098dff-bd58-4920-9a7c-74442dd4e60c
+
+	measure 'Volume Sukses' = CALCULATE(SUM(transactions[amount_idr]), transactions[status] = "success")
+		formatString: #,0
+		displayFolder: Transaksi
+		lineageTag: 22c6d280-2c6c-4693-8c52-dcf9a6c4ead6
+
+	measure 'Volume Sukses (Rp M)' = DIVIDE([Volume Sukses], 1000000000)
+		formatString: #,0.0
+		displayFolder: Transaksi
+		lineageTag: 08ab0251-39bb-4682-b9c7-f609cc7adfce
+
+	measure 'Rata-rata Transaksi (Rp Jt)' = DIVIDE([Volume Sukses], [Transaksi Sukses]) / 1000000
+		formatString: #,0.00
+		displayFolder: Transaksi
+		lineageTag: 6ead3fcd-ab73-4320-a1ea-aeaba47392de
+
+	measure 'Belanja Sukses (Rp M)' =
+			
+			DIVIDE(
+			    CALCULATE([Volume Sukses], KEEPFILTERS(transactions[merchant_category] <> "transfer")),
+			    1000000000
+			)
+		formatString: #,0.0
+		displayFolder: Transaksi
+		lineageTag: a5da51a6-b43a-4794-b82b-9cbc7493a4b2
+
+	measure 'Total Pinjaman' = COUNTROWS(loans)
+		formatString: #,0
+		displayFolder: Kredit
+		lineageTag: 1c6b8f1a-da6c-4e25-b128-615307131bc5
+
+	measure 'Pinjaman Bermasalah' = CALCULATE(COUNTROWS(loans), loans[status] IN {"overdue", "written_off"})
+		formatString: #,0
+		displayFolder: Kredit
+		lineageTag: 4aebd4ad-d54b-4c94-8055-2b2b894b637b
+
+	measure 'Loan Bermasalah %' = DIVIDE([Pinjaman Bermasalah], [Total Pinjaman])
+		formatString: 0.0%
+		displayFolder: Kredit
+		lineageTag: b9330191-1884-47ff-a748-8688f4fba497
+
+	measure 'Outstanding Pinjaman (Rp M)' = DIVIDE(SUM(loans[outstanding_idr]), 1000000000)
+		formatString: #,0.00
+		displayFolder: Kredit
+		lineageTag: 96bfe5c6-d248-4758-8aa6-08cb6adbdacd
+
+	measure 'Outstanding Bermasalah (Rp M)' = DIVIDE(CALCULATE(SUM(loans[outstanding_idr]), loans[status] IN {"overdue", "written_off"}), 1000000000)
+		formatString: #,0.00
+		displayFolder: Kredit
+		lineageTag: 106e9bf5-ae1e-44ed-85f1-2fe87f236647
+
+	measure 'Pencairan (Rp M)' = DIVIDE(CALCULATE(SUM(loans[principal_idr]), USERELATIONSHIP(loans[disbursement_date], Kalender[Date])), 1000000000)
+		formatString: #,0.00
+		displayFolder: Kredit
+		lineageTag: 277ada57-9256-4ad3-9e07-2cde19597080
+
+	measure 'Utilisasi Kartu Kredit' = DIVIDE(CALCULATE(SUM(cards[outstanding_idr]), cards[card_type] = "credit"), CALCULATE(SUM(cards[credit_limit_idr]), cards[card_type] = "credit"))
+		formatString: 0.0%
+		displayFolder: Kredit
+		lineageTag: 2b185227-d939-48c2-85cb-3d88b527cae6
+
+	column Dummy
+		dataType: int64
+		isHidden
+		lineageTag: 695f0aeb-db87-4090-9fb9-e6a4bd0b4c78
+		summarizeBy: none
+		sourceColumn: Dummy
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+					Source = #table(type table [Dummy = Int64.Type], {{1}})
+				in
+					Source
+

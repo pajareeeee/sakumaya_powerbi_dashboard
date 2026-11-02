@@ -1,0 +1,121 @@
+table loans
+	lineageTag: 9768ba30-8b2f-47de-ad93-44ed5e1b512a
+
+	column loan_id
+		dataType: string
+		lineageTag: 732894c7-1636-485c-8a75-8120bd267454
+		summarizeBy: none
+		sourceColumn: loan_id
+
+	column customer_id
+		dataType: string
+		lineageTag: d42cb6a5-85ff-4261-9504-55b86ee1bbd4
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column loan_type
+		dataType: string
+		lineageTag: d2ac31c9-05bb-4f7e-86ef-3a7ef80afd2b
+		summarizeBy: none
+		sourceColumn: loan_type
+
+	column principal_idr
+		dataType: int64
+		formatString: #,0
+		lineageTag: 37681453-862f-4ff9-98f9-7d463c0ab45d
+		summarizeBy: sum
+		sourceColumn: principal_idr
+
+		annotation SummarizationSetBy = Automatic
+
+	column interest_rate_annual
+		dataType: double
+		formatString: 0.0%
+		lineageTag: cc88958b-91da-41ad-a361-3a271de47e0f
+		summarizeBy: sum
+		sourceColumn: interest_rate_annual
+
+		annotation SummarizationSetBy = Automatic
+
+	column tenure_months
+		dataType: int64
+		formatString: #,0
+		lineageTag: 902112fe-676c-4d9f-82e4-8977598228ef
+		summarizeBy: sum
+		sourceColumn: tenure_months
+
+		annotation SummarizationSetBy = Automatic
+
+	column disbursement_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 526e2cc4-ab7d-491f-b585-6839e3f1520e
+		summarizeBy: none
+		sourceColumn: disbursement_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column monthly_installment_idr
+		dataType: int64
+		formatString: #,0
+		lineageTag: 04f47a4f-f3a2-4411-b9f6-52de37f66592
+		summarizeBy: sum
+		sourceColumn: monthly_installment_idr
+
+		annotation SummarizationSetBy = Automatic
+
+	column outstanding_idr
+		dataType: int64
+		formatString: #,0
+		lineageTag: c846c039-44ae-47a3-8d3e-bea1d0cbae9d
+		summarizeBy: sum
+		sourceColumn: outstanding_idr
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: afe8085d-923a-4e2d-a080-cb216a7799dd
+		summarizeBy: none
+		sourceColumn: status
+
+	column due_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b4fe3bd6-c0c0-4781-b8e7-e221630e4eb8
+		summarizeBy: none
+		sourceColumn: due_date
+
+		variation Variation
+			isDefault
+			relationship: a8d2ad8f-ae3c-482a-9320-f9e48928bba4
+			defaultHierarchy: LocalDateTable_c7b7381a-e708-42a9-b3c7-47d972467368.'Date Hierarchy'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_payment_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 0bb300d6-234e-425b-9865-5727328dd04b
+		summarizeBy: none
+		sourceColumn: last_payment_date
+
+		variation Variation
+			isDefault
+			relationship: 47be5a4d-c157-4358-8d33-5552549523d7
+			defaultHierarchy: LocalDateTable_4724db4d-7fa2-4400-b9f8-84e94382173e.'Date Hierarchy'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition loans = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "\loans.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"loan_id", type text}, {"customer_id", type text}, {"loan_type", type text}, {"principal_idr", Int64.Type}, {"interest_rate_annual", type number}, {"tenure_months", Int64.Type}, {"disbursement_date", type date}, {"monthly_installment_idr", Int64.Type}, {"outstanding_idr", Int64.Type}, {"status", type text}, {"due_date", type date}, {"last_payment_date", type date}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_ResultType = Table
+

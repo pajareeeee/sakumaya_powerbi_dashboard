@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1145.6111739017306,
+            "y": 284.42504242126745
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "bb421085-f9a0-4ebd-a2cd-86a208d75677",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 337.05807432092217,
+            "y": 191.07174548758724
+          },
+          "nodeIndex": "accounts",
+          "nodeLineageTag": "185894d7-5b9e-4c1a-a52b-e984f2fe1456",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 65.944242521994738
+          },
+          "nodeIndex": "cards",
+          "nodeLineageTag": "b7b8c4cc-ddf0-4647-9783-28278ecdc68d",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 625.36375936372633,
+            "y": -50
+          },
+          "nodeIndex": "customers",
+          "nodeLineageTag": "b4bca8c5-a43a-4410-a0ab-4f82b3310eef",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 685.75937478822266,
+            "y": 465.15823005311643
+          },
+          "nodeIndex": "Kalender",
+          "nodeLineageTag": "0efcba9d-1777-4c4f-9333-d3cd3da66ce9",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 911.61117390173058,
+            "y": 90.822124203218152
+          },
+          "nodeIndex": "loans",
+          "nodeLineageTag": "9768ba30-8b2f-47de-ad93-44ed5e1b512a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 222.45623424964708,
+            "y": 518.8500848425349
+          },
+          "nodeIndex": "transactions",
+          "nodeLineageTag": "bceccb3c-c828-447f-8d89-daa35d870fa6",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

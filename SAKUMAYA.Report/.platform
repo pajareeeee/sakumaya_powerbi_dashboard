@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "SAKUMAYA"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9f8a2756-16fa-4192-8a77-6f45c0855c4f"
+  }
+}

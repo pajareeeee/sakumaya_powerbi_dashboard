@@ -1,0 +1,79 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "p3_table",
+  "position": {
+    "x": 655,
+    "y": 472,
+    "z": 0,
+    "width": 605,
+    "height": 224
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "loans"
+                    }
+                  },
+                  "Property": "loan_type"
+                }
+              },
+              "queryRef": "loans.loan_type",
+              "nativeQueryRef": "loan_type"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Pinjaman"
+                }
+              },
+              "queryRef": "_Measures.Total Pinjaman",
+              "nativeQueryRef": "Total Pinjaman"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Outstanding Pinjaman (Rp M)"
+                }
+              },
+              "queryRef": "_Measures.Outstanding Pinjaman (Rp M)",
+              "nativeQueryRef": "Outstanding Pinjaman (Rp M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Loan Bermasalah %"
+                }
+              },
+              "queryRef": "_Measures.Loan Bermasalah %",
+              "nativeQueryRef": "Loan Bermasalah %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

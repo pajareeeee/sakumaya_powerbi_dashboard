@@ -1,0 +1,32 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.140.1577.0 (25.02)+00af0910c5ca19a229c472b0dfc17a2c488f6b0a
+
+annotation PBI_QueryOrder = ["customers","accounts","cards","loans","transactions","_Measures","DataFolder"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table customers
+ref table accounts
+ref table cards
+ref table loans
+ref table transactions
+ref table Kalender
+ref table _Measures
+ref table DateTableTemplate_c0c40636-a09c-4eac-a8dd-990ff77e6f70
+ref table LocalDateTable_f370b544-25e2-4cc7-bf72-14307c10f4e3
+ref table LocalDateTable_5500d962-50b6-4a0b-82eb-41c81c8960b7
+ref table LocalDateTable_c7b7381a-e708-42a9-b3c7-47d972467368
+ref table LocalDateTable_4724db4d-7fa2-4400-b9f8-84e94382173e
+
+ref cultureInfo en-US
+

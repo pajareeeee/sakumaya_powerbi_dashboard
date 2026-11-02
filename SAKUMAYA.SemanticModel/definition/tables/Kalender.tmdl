@@ -1,0 +1,35 @@
+table Kalender
+	lineageTag: 0efcba9d-1777-4c4f-9333-d3cd3da66ce9
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: 480fea1c-871e-4858-8714-518347f11258
+		summarizeBy: none
+		sourceColumn: [Date]
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 81219a22-650b-4df0-b855-0772e1f0e5eb
+		summarizeBy: none
+		sourceColumn: [Year]
+
+	column MonthStart
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 676ee834-ee69-4720-93b5-5b615c69971a
+		summarizeBy: none
+		sourceColumn: [MonthStart]
+
+	partition Kalender = calculated
+		mode: import
+		source =
+				ADDCOLUMNS(
+					CALENDAR(DATE(2022, 1, 1), DATE(2025, 2, 28)),
+					"Year", YEAR([Date]),
+					"MonthStart", DATE(YEAR([Date]), MONTH([Date]), 1)
+				)
+

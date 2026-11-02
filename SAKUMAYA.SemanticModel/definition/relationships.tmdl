@@ -1,0 +1,50 @@
+relationship accounts_customers
+	fromColumn: accounts.customer_id
+	toColumn: customers.customer_id
+
+relationship loans_customers
+	fromColumn: loans.customer_id
+	toColumn: customers.customer_id
+
+relationship transactions_accounts
+	fromColumn: transactions.account_id
+	toColumn: accounts.account_id
+
+relationship cards_accounts
+	fromColumn: cards.account_id
+	toColumn: accounts.account_id
+
+relationship transactions_kalender
+	fromColumn: transactions.trx_date
+	toColumn: Kalender.Date
+
+relationship customers_kalender_registrasi
+	isActive: false
+	fromColumn: customers.registration_date
+	toColumn: Kalender.Date
+
+relationship loans_kalender_pencairan
+	isActive: false
+	fromColumn: loans.disbursement_date
+	toColumn: Kalender.Date
+
+relationship 1e121dea-1f7a-4c36-a821-ac4bc18bede1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: customers.dob
+	toColumn: LocalDateTable_f370b544-25e2-4cc7-bf72-14307c10f4e3.Date
+
+relationship c3393203-3a11-401d-85e5-d505caca6222
+	joinOnDateBehavior: datePartOnly
+	fromColumn: accounts.created_date
+	toColumn: LocalDateTable_5500d962-50b6-4a0b-82eb-41c81c8960b7.Date
+
+relationship a8d2ad8f-ae3c-482a-9320-f9e48928bba4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: loans.due_date
+	toColumn: LocalDateTable_c7b7381a-e708-42a9-b3c7-47d972467368.Date
+
+relationship 47be5a4d-c157-4358-8d33-5552549523d7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: loans.last_payment_date
+	toColumn: LocalDateTable_4724db4d-7fa2-4400-b9f8-84e94382173e.Date
+

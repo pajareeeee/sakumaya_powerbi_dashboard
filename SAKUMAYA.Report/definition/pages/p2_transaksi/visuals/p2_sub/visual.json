@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "p2_sub",
+  "position": {
+    "x": 20,
+    "y": 50,
+    "z": 0,
+    "width": 880,
+    "height": 28
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Volume, pola belanja, channel, dan tingkat transaksi gagal.",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#5B6784"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
